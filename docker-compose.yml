@@ -13,13 +13,34 @@ services:
 
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    restart: on-failure
     volumes:
       - .:/usr/src/app
     ports:
       - "8000:8000"
     depends_on:
       - db
+      - celery
+    env_file:
+      - .env
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  # Я объединяю celery и celery-beat несмотря на то, что рекомендуется контейнезировать их отдельно
+  # Просто у меня не хватает мощностей компьютера держать столько контейнеров
+  # Разделение этих сервисов позволяет удерживать отказоустойчивость
+  celery:
+    build: .
+    command: /bin/sh -c 'celery -A backend worker --loglevel=info -B'
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+      - redis
     env_file:
       - .env
 

@@ -7,6 +7,10 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 psycopg2 = "*"
+celery = {extras = ["redis"], version = "*"}
+bs4 = "*"
+requests = "*"
+pydantic = "*"
 
 [dev-packages]
 

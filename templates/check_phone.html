@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка номера телефона</title>
+</head>
+<body>
+    <h1>Проверка номера телефона</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="phone">Введите номер телефона:</label>
+        <input type="text" id="phone" name="phone" required>
+        <button type="submit">Отправить</button>
+    </form>
+
+    {% if operator_info %}
+        <h2>Результаты поиска:</h2>
+        <p><strong>Телефон:</strong> {{ operator_info.phone }} </p>
+        <p><strong>Оператор:</strong> {{ operator_info.name }}</p>
+        <p><strong>Регион:</strong> {{ operator_info.region }}</p>
+    {% elif operator_info == None %}
+        <p>Информация по номеру не найдена.</p>
+    {% endif %}
+</body>
+</html>
