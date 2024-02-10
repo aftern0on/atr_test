@@ -12,7 +12,7 @@ from django.db import transaction
 from phone.models import Operator
 
 requests.packages.urllib3.disable_warnings()
-CSV_DATA_PATH = "phone/data"
+CSV_DATA_PATH = "phone/data/"
 BATCH_SIZE = 512
 
 
@@ -113,7 +113,7 @@ def process_csv_file(filename: str):
 
 
 def process_csv_files():
-    logging.info("all files downloaded, start processing write operators...")
+    logging.info(f"all files downloaded, start processing files: {os.listdir(CSV_DATA_PATH)}")
     for filename in os.listdir(CSV_DATA_PATH):
         if filename.endswith(".csv"):
             process_csv_file(filename)
