@@ -19,12 +19,8 @@ def update_operators(request: Request):
     Сделал отдельно в виде эндпоинта, никакой защиты тут нет, но сделать-то можно.
     """
 
-    try:
-        update_operators_data()
-    except Exception as e:
-        logging.error(f"update operator error: {e}, details:", exc_info=True)
-        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={'error': 'operator service error'})
-    return Response(status=status.HTTP_200_OK, data={'description': 'ok'})
+    update_operators_data.delay()
+    return Response(status=status.HTTP_200_OK, data={"description": "the operator update task has been started"})
 
 
 @api_view(["GET", "POST"])
