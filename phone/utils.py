@@ -139,8 +139,13 @@ def download_csv_files():
     links = soup.find_all('a', href=True)
     csv_links = [link['href'] for link in links if 'csv' in link['href']]
 
+    # Создаем каталог, если он не существует
+    directory = CSV_DATA_PATH
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     for link in csv_links:
-        file_name = "phone/data/" + link.split('/')[-1].split('?')[0]
+        file_name = CSV_DATA_PATH + link.split('/')[-1].split('?')[0]
         answer = requests.get(link, verify=False)
         if answer.status_code == 200:
             with open(file_name, 'wb') as f:
