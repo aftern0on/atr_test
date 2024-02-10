@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, Union
 
 from django.shortcuts import render
@@ -18,7 +19,11 @@ def update_operators(request: Request):
     Сделал отдельно в виде эндпоинта, никакой защиты тут нет, но сделать-то можно.
     """
 
-    update_operators_data()
+    try:
+        update_operators_data()
+    except Exception as e:
+        logging.error(f"update operator error: {e}, details:", exc_info=True)
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data={'error': 'operator service error'})
     return Response(status=status.HTTP_200_OK, data={'description': 'ok'})
 
 

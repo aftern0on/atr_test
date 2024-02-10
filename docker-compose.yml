@@ -13,7 +13,7 @@ services:
 
   web:
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py makemigrations && python manage.py makemigrations phone && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     restart: on-failure
     volumes:
       - .:/usr/src/app
